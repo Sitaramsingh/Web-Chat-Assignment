@@ -1,0 +1,9 @@
+.main{
+    width: 'auto';
+    display: 'block'; 
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.paper{
+    padding: 20px;
+}
