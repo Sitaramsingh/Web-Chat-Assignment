@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import {BrowserRouter as Router, Link } from 'react-router-dom';
 import './signup.css';
 import {FormControl, InputLabel, Input, Paper, Typography, Button} from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
+// import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+const firebase = require("firebase");
 
 class index extends Component {
     constructor() {
@@ -37,14 +39,39 @@ class index extends Component {
 
       formIsValid = () => this.state.password === this.state.passwordConfirmation;
 
-      submitSignup = (e) => {
-        e.preventDefault(); // This is to prevent the automatic refreshing of the page on submit.
+    submitSignup = (e) => {
+        debugger
+        e.preventDefault();
     
         if(!this.formIsValid()) {
           this.setState({ signupError: 'Passwords do not match' });
           return;
         }
-    }
+        firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(authRes => {
+          const userObj = {
+            email: authRes.user.email,
+            // friends: [],
+            // messages: []
+          };
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(this.state.email)
+            .set(userObj)
+            .then(() => {
+              this.props.history.push('/dashboard');
+          }, dbErr => {
+            console.log('Failed to add user to the database: ', dbErr);
+            this.setState({ signupError: 'Failed to add user' });
+          });
+      }, authErr => {
+        console.log('Failed to create user: ', authErr);
+        this.setState({ signupError: 'Failed to add user' });
+      });
+    };
     render() {
         return (
             <main className="main">
@@ -76,7 +103,7 @@ class index extends Component {
                 null
               }
               <h5 className="hasAccountHeader">Already Have An Account?</h5>
-              {/* <Link className="logInLink" to='/login'>Log In!</Link> */}
+                <Link className="logInLink" to='/login'>Log In!</Link>
             </Paper>
           </main>
         

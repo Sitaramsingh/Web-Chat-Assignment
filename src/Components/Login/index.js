@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import React from 'react';
 import './login.css';
 import {FormControl,InputLabel,Input, Paper,Typography, Button} from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+const firebase = require("firebase");
 
 class index extends React.Component {
     constructor() {
@@ -14,17 +15,17 @@ class index extends React.Component {
           serverError: false
         };
       }
-     submitLogin =  (e) => {
-        e.preventDefault(); // This is to prevent the automatic refreshing of the page on submit.
-        // await firebase
-        //   .auth()
-        //   .signInWithEmailAndPassword(this.state.email, this.state.password)
-        //   .then(() => {
-        //     this.props.history.push('/dashboard');
-        //   }, err => {
-        //     this.setState({ serverError: true });
-        //     console.log('Error logging in: ', err);
-        //   });
+     submitLogin = async (e) => {
+        e.preventDefault();
+        await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password)
+          .then(() => {
+            this.props.history.push('/dashboard');
+          }, err => {
+            this.setState({ serverError: true });
+            console.log('Not logging in: ', err);
+          });
       };
       userTyping = (whichInput, event) => {
         switch (whichInput) {
@@ -66,7 +67,7 @@ class index extends React.Component {
                             null
                         }
                         <h5 className="noAccountHeader">Don't Have An Account?</h5>
-                        {/* <Link className="signUpLink" to='/signup'>Sign Up!</Link> */}
+                          <Link className="signUpLink" to='/signup'>Sign Up!</Link>
                     </Paper>
                 </main>
             </div>
