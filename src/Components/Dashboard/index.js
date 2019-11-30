@@ -4,7 +4,7 @@ import NewChat from '../NewChat';
 import ChatList from '../ChatList';
 import ChatView from '../ChatView';
 import ChatBox from '../ChatBox';
-import { Button} from '@material-ui/core';
+// import { Button} from '@material-ui/core';
 import './dashboard.css';
 
 const firebase = require("firebase");

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import {BrowserRouter as Router, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './signup.css';
 import {FormControl, InputLabel, Input, Paper, Typography, Button} from '@material-ui/core';
-// import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 const firebase = require("firebase");
@@ -37,10 +36,9 @@ class index extends Component {
         }
       }
 
-      formIsValid = () => this.state.password === this.state.passwordConfirmation;
-
+    formIsValid = () => this.state.password === this.state.passwordConfirmation;
     submitSignup = (e) => {
-        debugger
+        //debugger
         e.preventDefault();
     
         if(!this.formIsValid()) {
@@ -53,8 +51,8 @@ class index extends Component {
         .then(authRes => {
           const userObj = {
             email: authRes.user.email,
-            // friends: [],
-            // messages: []
+            friends: [],
+            messages: []
           };
           firebase
             .firestore()

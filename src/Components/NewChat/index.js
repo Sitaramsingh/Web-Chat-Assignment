@@ -17,7 +17,7 @@ export class index extends Component {
 
     componentWillMount() {
         if(!firebase.auth().currentUser)
-          this.props.history.push('/login');
+          this.props.history.push('/');
       }
       userTyping = (inputType, e) => {
         switch (inputType) {
